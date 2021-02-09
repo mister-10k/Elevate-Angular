@@ -1,0 +1,40 @@
+#remove-dialog-container {
+    height: 200px;
+    width: 380px;
+    padding: 5px;
+    text-align: center;
+
+    .icon-wrapper {
+        margin-right: 15px;
+        
+        mat-icon {
+            font-size: 50px;
+            color: #F03A17;
+        }
+    }
+    
+
+    .remove-dialog-title {
+        font-weight: bold;
+    }
+
+    .message {
+        font-size: 16px;
+    }
+
+    .cancel-btn {
+        color: white;
+        background-color: grey;
+    }
+
+    .delete-btn {
+        color: #fff;
+        background-color: #F03A17 !important;
+        border-color: #F03A17 !important;
+        margin-left: 8px;
+    }
+
+    .actions {
+        margin-top: 20px;
+    }
+}

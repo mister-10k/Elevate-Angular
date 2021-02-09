@@ -1,0 +1,43 @@
+#employee-dialog-container {
+    padding: 5px;
+    
+    .table-wrapper {
+        margin-top: 30px;
+        margin-bottom: 30px;
+
+        .header {
+            padding: 10px 20px;
+            
+            .header-title {
+                margin-top: 5px;
+                font-size: 25px;
+            }
+
+            .add-dependent-btn {
+                color: #fff;
+                background-color: #F03A17 !important;
+                border-color: #F03A17 !important;
+                height: 35px;
+                margin-top: 3px;
+            }
+        }
+
+        table {
+            width: 100%;
+        }
+    }
+    .employee-dialog-title {
+        font-weight: bold;
+    }
+
+    .cancel-btn {
+        color: white;
+        background-color: grey;
+    }
+
+    .save-btn {
+        color: #fff;
+        background-color: #F03A17 !important;
+        border-color: #F03A17 !important;
+    }
+}

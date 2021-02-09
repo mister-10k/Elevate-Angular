@@ -1,0 +1,14 @@
+<div id="remove-dialog-container">
+    <div class="icon-wrapper"><mat-icon>error_outline</mat-icon></div>
+
+    <h2 class="remove-dialog-title">Confirmation</h2>
+  
+    <section class="message"> 
+        {{removeDialogData.message}}
+    </section>
+
+    <section  class="d-flex justify-content-center actions">
+      <button class="cancel-btn" mat-raised-button type="button" (click)="onCancelClick()">Cancel</button>
+      <button class="delete-btn" mat-raised-button type="button" (click)="onDeleteClick()">Delete</button>
+    </section>
+</div>

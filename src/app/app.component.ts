@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Elevate';
+  currentPath = '';
+
+  currentPathSub: Subscription | undefined;
+
+  constructor(private router: Router) {}
+
+  ngOnInit() {
+    this.currentPathSub = this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe(event => {
+         this.currentPath = event.url;
+      });
+  }
 }

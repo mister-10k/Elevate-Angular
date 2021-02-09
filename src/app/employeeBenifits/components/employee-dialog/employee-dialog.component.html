@@ -1,0 +1,128 @@
+<div id="employee-dialog-container">
+    <h2 class="empoyee-dialog-title">Employee</h2>
+
+    <form [formGroup]="form" novalidate (keydown.enter)="$event.preventDefault()">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label class="required-field">First Name</mat-label>
+                            <input matInput autocomplete="off" maxlength="10"/>
+                            <!-- <mat-error>{{getControlErrorMsg('RequesterCellPhoneNum')}}</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label class="required-field">Last Name</mat-label>
+                            <input matInput autocomplete="off" maxlength="10"/>
+                            <!-- <mat-error>{{getControlErrorMsg('RequesterCellPhoneNum')}}</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field>
+                            <mat-label class="required-field">Company</mat-label>
+                            <input matInput autocomplete="off" maxlength="10"/>
+                            <!-- <mat-error>{{getControlErrorMsg('RequesterCellPhoneNum')}}</mat-error> -->
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3 ">
+                        <mat-label>Date Joined</mat-label>
+                        <div>--</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-label>Salary</mat-label>
+                        <div>{{52000 | currency }}</div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <mat-label>Deduction per year</mat-label>
+                        <div>--</div>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-label>Deduction per month</mat-label>
+                        <div>--</div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <mat-label>Deduction bi-weekly</mat-label>
+                        <div>--</div>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-wrapper border-top border-left border-right">
+            <div class="d-flex justify-content-between header">
+                <div class="header-title">Dependents</div>
+                <button mat-raised-button class="add-dependent-btn">Add Dependet</button>
+            </div>
+
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef>First Name</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="!element.edit">{{element.FirstName}}</span>
+                        <mat-form-field *ngIf="element.edit">
+                            <input matInput [(ngModel)]="element.FirstName" autocomplete="off"
+                                maxlength="100"/>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="!element.edit">{{element.FirstName}}</span>
+                        <mat-form-field *ngIf="element.edit">
+                            <input matInput [(ngModel)]="element.LastName" autocomplete="off"
+                                maxlength="100"/>
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="relationship">
+                    <th mat-header-cell *matHeaderCellDef>Relationship</th>
+                    <td mat-cell *matCellDef="let element">
+                        <span *ngIf="!element.edit">{{element.RelationshipDisplayName}}</span>
+                        <mat-form-field *ngIf="element.edit">
+                            <!-- <mat-select [(ngModel)]="element.RelationshipId"
+                                (selectionChange)="onClientSelection($event, element)">
+                                <mat-option *ngFor="let householdMember of householdMembers"
+                                    [value]="householdMember.Value">{{householdMember.Text}}</mat-option>
+                            </mat-select> -->
+                        </mat-form-field>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th class="actions-column" mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td class="actions-column" mat-cell *matCellDef="let element">
+                      <div>
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item>Save</button>
+                            <button mat-menu-item>Delete</button>
+                            <button mat-menu-item>Cancel</button>
+                        </mat-menu>
+                     </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="depndentsColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: depndentsColumns;"></tr>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <div class="actions">
+                <button mat-raised-button class="cancel-btn mr-2">Cancel</button>
+                <button mat-raised-button  class="save-btn">Save</button>
+            </div>          
+        </div>
+        
+    </form>
+</div>

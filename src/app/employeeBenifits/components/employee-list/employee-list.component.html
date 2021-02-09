@@ -1,0 +1,69 @@
+<div id="list-container">
+    <div class="border">
+        <div class="d-flex justify-content-between header">
+          <div class="header-title">Employees</div>
+          <div class="search-add d-flex">
+            <mat-form-field class="mr-2">
+              <mat-label>Search</mat-label>
+              <input matInput>
+            </mat-form-field>
+            <button mat-raised-button class="search-btn mr-2">Search</button>
+            <button mat-raised-button class="add-employee-btn" (click)="openEmployeeDialog('add', employee)">Add Employee</button>
+          </div>
+        </div>
+        <table mat-table [dataSource]="dataSource">
+      
+          <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td width="14%" mat-cell  *matCellDef="let element"> {{element.position}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> First Name </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef> Last Name </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef> Comapny </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dependents">
+            <th mat-header-cell *matHeaderCellDef> Dependents </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> 5 </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateCreated">
+            <th mat-header-cell *matHeaderCellDef> Date Joined </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th class="actions-column" mat-header-cell *matHeaderCellDef> Actions </th>
+            <td class="actions-column" width="7.14%" mat-cell *matCellDef="let element">
+              <div>
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="icon-button with a menu">
+                  <mat-icon aria-hidden="false" aria-label="Example home icon">more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="openEmployeeDialog('view', employee)">View</button>
+                    <button mat-menu-item>Edit</button>
+                    <button mat-menu-item (click)="openRemoveDialog(element.Id)">Delete</button>
+                </mat-menu>
+             </div>
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      </div>
+      
+</div>
