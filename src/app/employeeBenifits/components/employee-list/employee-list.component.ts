@@ -1,10 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RemoveDialog } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-import { IEmployee } from '../../models/employeeBenifits.model';
+import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee } from '../../models/employeeBenifits.model';
 import { EmployeeDialog } from '../employee-dialog/employee-dialog.component';
+import jwt_decode from "jwt-decode";
+import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
+import { take } from 'rxjs/operators';
+import { CdkRow } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-employee-list',
@@ -13,19 +18,77 @@ import { EmployeeDialog } from '../employee-dialog/employee-dialog.component';
 })
 export class EmployeeListComponent implements OnInit {
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol', 'dependents', 'dateCreated', 'actions'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns: string[] = ['Id', 'FirstName', 'LastName', 'Company', 'Dependents', 'CreatedAt', 'Actions'];
+  dataSource = new MatTableDataSource<IEBEmployeeList>();
   employee: IEmployee;
+  searchText: string = "";
+  requestModel: IEBEmployeeListRequestModel = {
+    CompanyId: 0,
+    SearchText: this.searchText,
+    SortBy: null,
+    SortColumn: null,
+    PageSize: 5,
+    PageNumber: 0
+  }
+  resultsLength: number = 0;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
+  @ViewChild(MatSort) sort: MatSort;
   
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private employeeBenifitsService: EmployeeBenifitsService) { }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit() {
+    // this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.query('search');
+  }
+
+  query(action: string) {
+    if (action == 'search' || action == 'sort')
+          this.paginator.pageIndex = 0;
+
+    this.setRequestModel();
+    const obs = this.employeeBenifitsService.getEmployeesForEBDashboard(this.requestModel);
+    obs.pipe(take(1)).subscribe((employees) => {
+      if (employees)
+      {
+        this.dataSource.data = employees;
+        this.paginator.length = employees.length > 0 ? employees[0].TotalCount : 0;
+      }
+      // this.openSuccessSnackBar('Excel download complete.');
+    }, err => console.log(err));
+  }
+
+  resetGrid() {
+    this.searchText = null;
+    this.sort.direction = '';
+    this.paginator.pageSize = 5;
+    this.query('search');
+  }
+
+  deleteEmployee(employeeId: number) {
+    const obs = this.employeeBenifitsService.deleteEmployee(employeeId);
+    obs.pipe(take(1)).subscribe((deletedEmployee) => {
+      this.resetGrid()
+    }, err => console.log(err))
+  }
+
+  setRequestModel() {
+    var jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;
+    this.requestModel.CompanyId = jwtDecoded.companyId;
+    this.requestModel.SearchText = this.searchText;
+    if (this.sort.direction == '') { // default sort order
+      this.requestModel.SortBy = 'asc';
+      this.requestModel.SortColumn = 'Id';
+    } else {
+      this.requestModel.SortBy = this.sort.direction;
+      this.requestModel.SortColumn = this.sort.active ? this.sort.active : 'Id';
+    }
+    this.requestModel.PageSize = this.paginator.pageSize;
+    this.requestModel.PageNumber = this.paginator.pageIndex;
   }
 
   openRemoveDialog(employeeId: number): void {
@@ -34,7 +97,8 @@ export class EmployeeListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
+      if (result)
+        this.deleteEmployee(employeeId);
     });
   }
 
@@ -49,33 +113,3 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 }
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
-];

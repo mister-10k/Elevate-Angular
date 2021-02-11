@@ -5,45 +5,45 @@
           <div class="search-add d-flex">
             <mat-form-field class="mr-2">
               <mat-label>Search</mat-label>
-              <input matInput>
+              <input [(ngModel)]="searchText" (keydown.enter)="query('search')" matInput>
             </mat-form-field>
-            <button mat-raised-button class="search-btn mr-2">Search</button>
-            <button mat-raised-button class="add-employee-btn" (click)="openEmployeeDialog('add', employee)">Add Employee</button>
+            <button mat-raised-button class="search-btn mr-2" (click)="query('search')">Search</button>
+            <button mat-raised-button class="add-employee-btn"(click)="openEmployeeDialog('add', employee)">Add Employee</button>
           </div>
         </div>
-        <table mat-table [dataSource]="dataSource">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="query('sort')">
       
-          <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> ID </th>
-            <td width="14%" mat-cell  *matCellDef="let element"> {{element.position}} </td>
+          <ng-container matColumnDef="Id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>  ID </th>
+            <td width="14%" mat-cell  *matCellDef="let element"> {{element.Id}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> First Name </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
-      
-          <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef> Last Name </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.weight}} </td>
+          <ng-container matColumnDef="FirstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.FirstName}} </td>
           </ng-container>
       
-          <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef> Comapny </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          <ng-container matColumnDef="LastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.LastName}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="Company">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Comapny </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.Company}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="dependents">
-            <th mat-header-cell *matHeaderCellDef> Dependents </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> 5 </td>
+          <ng-container matColumnDef="Dependents">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Dependents </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.Dependents}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="dateCreated">
-            <th mat-header-cell *matHeaderCellDef> Date Joined </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          <ng-container matColumnDef="CreatedAt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Joined </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.CreatedAt}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="actions">
+          <ng-container matColumnDef="Actions">
             <th class="actions-column" mat-header-cell *matHeaderCellDef> Actions </th>
             <td class="actions-column" width="7.14%" mat-cell *matCellDef="let element">
               <div>
@@ -63,7 +63,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
       
-        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <mat-paginator  [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="query('pageChange')"></mat-paginator>
       </div>
       
 </div>

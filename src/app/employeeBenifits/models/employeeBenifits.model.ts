@@ -11,7 +11,27 @@ export interface IEmployee extends IUser {
 }
 
 export interface IEmployeeDependent extends IUser {
+    EmployeeId: number;
     RelationshipId: number;
     RelationshipName: string;
     RelationshipDisplayName: string;
+}
+
+export interface IEBEmployeeListRequestModel {
+    CompanyId: number;
+    SearchText: string;
+    SortBy: string;
+    SortColumn: string;
+    PageSize: number;
+    PageNumber: number
+}
+
+export interface IEBEmployeeList {
+    Id: number;
+    FirstName: string;
+    LastName: string;
+    Company: string;
+    Dependents: number;
+    CreatedAt: string;
+    TotalCount: number;
 }

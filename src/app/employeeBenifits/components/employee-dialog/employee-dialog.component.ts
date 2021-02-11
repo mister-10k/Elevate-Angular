@@ -45,5 +45,5 @@ export class EmployeeDialog implements OnInit {
 }
 
 const EMPLOYEE_DEPENDENT_DATA: IEmployeeDependent[] = [
-  {Id: 1, FirstName: 'Kwabena', LastName: 'Ohemeng', RelationshipId: 1, RelationshipName:'hi', RelationshipDisplayName: 'hi'},
+  {Id: 1,  EmployeeId: 0, FirstName: 'Kwabena', LastName: 'Ohemeng', RelationshipId: 1, RelationshipName:'hi', RelationshipDisplayName: 'hi'},
 ];
