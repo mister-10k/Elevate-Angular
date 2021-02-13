@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RemoveDialog } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee } from '../../models/employeeBenifits.model';
+import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee, IEmployeeFormMasterData } from '../../models/employeeBenifits.model';
 import { EmployeeDialog } from '../employee-dialog/employee-dialog.component';
 import jwt_decode from "jwt-decode";
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
@@ -18,8 +18,10 @@ import { CdkRow } from '@angular/cdk/table';
 })
 export class EmployeeListComponent implements OnInit {
 
-  displayedColumns: string[] = ['Id', 'FirstName', 'LastName', 'Company', 'Dependents', 'CreatedAt', 'Actions'];
-  dataSource = new MatTableDataSource<IEBEmployeeList>();
+  @Input() employeeFormMasterData: IEmployeeFormMasterData;
+
+  displayedColumns: string[] = ['Id', 'FirstName', 'LastName', 'Email', 'Dependents', 'CreatedAt', 'Actions'];
+  dataSource = new MatTableDataSource<IEmployee>();
   employee: IEmployee;
   searchText: string = "";
   requestModel: IEBEmployeeListRequestModel = {
@@ -30,7 +32,6 @@ export class EmployeeListComponent implements OnInit {
     PageSize: 5,
     PageNumber: 0
   }
-  resultsLength: number = 0;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -52,11 +53,11 @@ export class EmployeeListComponent implements OnInit {
 
     this.setRequestModel();
     const obs = this.employeeBenifitsService.getEmployeesForEBDashboard(this.requestModel);
-    obs.pipe(take(1)).subscribe((employees) => {
-      if (employees)
+    obs.pipe(take(1)).subscribe((data) => {
+      if (data)
       {
-        this.dataSource.data = employees;
-        this.paginator.length = employees.length > 0 ? employees[0].TotalCount : 0;
+        this.dataSource.data = data.Rows;
+        this.paginator.length = data.TotalCount
       }
       // this.openSuccessSnackBar('Excel download complete.');
     }, err => console.log(err));
@@ -67,13 +68,6 @@ export class EmployeeListComponent implements OnInit {
     this.sort.direction = '';
     this.paginator.pageSize = 5;
     this.query('search');
-  }
-
-  deleteEmployee(employeeId: number) {
-    const obs = this.employeeBenifitsService.deleteEmployee(employeeId);
-    obs.pipe(take(1)).subscribe((deletedEmployee) => {
-      this.resetGrid()
-    }, err => console.log(err))
   }
 
   setRequestModel() {
@@ -105,11 +99,33 @@ export class EmployeeListComponent implements OnInit {
   openEmployeeDialog(mode: string, employee? :IEmployee) {
     const dialogRef = this.dialog.open(EmployeeDialog, {
       width: '1036px',
-      data: { mode: mode, employee: employee}
+      disableClose: mode != 'readOnly' ? true : false,
+      data: { viewMode: mode, employee: employee, masterData: this.employeeFormMasterData}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-        console.log(result);
+        if (result.save) {
+          this.createEmployee(result.employee)
+        } else {
+          let index = this.dataSource.data.findIndex(x => x.Id == employee.Id);
+          if (index > -1)
+            this.dataSource.data.splice(index,1,employee);
+        }
     });
   }
+
+  createEmployee(employee: IEmployee) {
+    const obs = this.employeeBenifitsService.createEmployee(employee);
+    obs.pipe(take(1)).subscribe((addedEmployee) => {
+      this.resetGrid()
+    }, err => console.log(err))
+  }
+
+  deleteEmployee(employeeId: number) {
+    const obs = this.employeeBenifitsService.deleteEmployee(employeeId);
+    obs.pipe(take(1)).subscribe((deletedEmployee) => {
+      this.resetGrid()
+    }, err => console.log(err))
+  }
+
 }

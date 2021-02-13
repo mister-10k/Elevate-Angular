@@ -1,3 +1,4 @@
+import { IListItem } from "src/app/shared/models/shared.model";
 import { IUser } from "src/app/user/models/user.model";
 
 export interface IDashboardStat {
@@ -7,14 +8,19 @@ export interface IDashboardStat {
 }
 
 export interface IEmployee extends IUser {
-    Dependents: Array<IEmployeeDependent>
+    NumbeOfDependents: number;
+    Dependents: Array<IEmployeeDependent>;
+    CreatedAtText: string;
 }
 
 export interface IEmployeeDependent extends IUser {
     EmployeeId: number;
     RelationshipId: number;
-    RelationshipName: string;
-    RelationshipDisplayName: string;
+    RelationshipName?: string;
+    RelationshipDisplayName?: string;
+    edit?: boolean;
+    dependentCopy?: IEmployeeDependent;
+    freshEntry?: boolean;
 }
 
 export interface IEBEmployeeListRequestModel {
@@ -34,4 +40,8 @@ export interface IEBEmployeeList {
     Dependents: number;
     CreatedAt: string;
     TotalCount: number;
+}
+
+export interface IEmployeeFormMasterData {
+    Relationships: Array<IListItem>;
 }

@@ -5,6 +5,8 @@ export interface IUser {
     Email?: string;
     UserTypeId?: number;
     CompanyId?: number;
+    ComapnyName?: string;
+    ComapnyDisplayName?: string;
     CreatedAt?: string;
     ModifiedAt?: string;
 }

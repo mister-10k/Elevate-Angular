@@ -28,19 +28,19 @@
             <td width="14.28%" mat-cell *matCellDef="let element"> {{element.LastName}} </td>
           </ng-container>
       
-          <ng-container matColumnDef="Company">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Comapny </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.Company}} </td>
+          <ng-container matColumnDef="Email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.Email}} </td>
           </ng-container>
 
           <ng-container matColumnDef="Dependents">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Dependents </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.Dependents}} </td>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.NumberOfDependents}} </td>
           </ng-container>
 
           <ng-container matColumnDef="CreatedAt">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Joined </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.CreatedAt}} </td>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.CreatedAtText}} </td>
           </ng-container>
 
           <ng-container matColumnDef="Actions">
@@ -51,7 +51,7 @@
                   <mat-icon aria-hidden="false" aria-label="Example home icon">more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item (click)="openEmployeeDialog('view', employee)">View</button>
+                    <button mat-menu-item (click)="openEmployeeDialog('readOnly', element)">View</button>
                     <button mat-menu-item>Edit</button>
                     <button mat-menu-item (click)="openRemoveDialog(element.Id)">Delete</button>
                 </mat-menu>
