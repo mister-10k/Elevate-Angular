@@ -9,17 +9,21 @@ import { SharedModule } from '../shared/shared.module';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { EmployeeDialog } from './components/employee-dialog/employee-dialog.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HighestEmployeeDeductionsComponent } from './components/highest-employee-deductions/highest-employee-deductions.component';
+import {ChartModule} from 'primeng/chart';
+
 
 
 
 @NgModule({
   entryComponents: [EmployeeDialog],
-  declarations: [EmployeeBenifitsDashboardComponent, DashboardStatsComponent, DashboardStatCardComponent, EmployeeListComponent, EmployeeDialog],
+  declarations: [EmployeeBenifitsDashboardComponent, DashboardStatsComponent, DashboardStatCardComponent, EmployeeListComponent, EmployeeDialog, HighestEmployeeDeductionsComponent],
   imports: [
     CommonModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartModule
   ],
   exports: [
   ]

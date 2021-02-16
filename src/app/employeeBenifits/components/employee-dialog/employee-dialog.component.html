@@ -63,7 +63,7 @@
                 <table mat-table [dataSource]="dependentsDataSource">  
                     <ng-container matColumnDef="FirstName">
                         <th mat-header-cell *matHeaderCellDef>First Name</th>
-                        <td mat-cell *matCellDef="let element; let row = index">
+                        <td width="31%" mat-cell *matCellDef="let element; let row = index">
                             <span *ngIf="!element.edit">{{element.FirstName}}</span>
                             <mat-form-field *ngIf="element.edit">
                                 <input name="{{row + '-firstName'}}"  matInput [(ngModel)]="element.FirstName" name="firstName" autocomplete="off" required/>
@@ -73,7 +73,7 @@
                     </ng-container>
                     <ng-container matColumnDef="LastName">
                         <th mat-header-cell *matHeaderCellDef>Last Name</th>
-                        <td mat-cell *matCellDef="let element; let row = index">
+                        <td width="31%" mat-cell *matCellDef="let element; let row = index">
                             <span *ngIf="!element.edit">{{element.LastName}}</span>
                             <mat-form-field *ngIf="element.edit">
                                 <input name="{{row + '-lastName'}}" matInput [(ngModel)]="element.LastName" name="lastName" autocomplete="off" required/>
@@ -84,7 +84,7 @@
     
                     <ng-container matColumnDef="Relationship">
                         <th mat-header-cell *matHeaderCellDef>Relationship</th>
-                        <td mat-cell *matCellDef="let element; let row = index">
+                        <td width="31%" mat-cell *matCellDef="let element; let row = index">
                             <span *ngIf="!element.edit">{{element.RelationshipDisplayName}}</span>
                             <mat-form-field *ngIf="element.edit">
                                 <mat-select matNativeControl name="{{row + '-relationship'}}" [(ngModel)]="element.RelationshipId"  [compareWith]="compareWith" (selectionChange)="onRelationshipSelect($event, element)" required [required]="true" [errorStateMatcher]="matcher">
@@ -97,7 +97,7 @@
     
                     <ng-container matColumnDef="Actions">
                         <th class="actions-column" mat-header-cell *matHeaderCellDef> Actions </th>
-                        <td class="actions-column" mat-cell *matCellDef="let element; let row = index">
+                        <td  width="5%" class="actions-column" mat-cell *matCellDef="let element; let row = index">
                             <div>
                             <button (click)="$event.preventDefault()" [disabled]="readOnly" mat-icon-button [matMenuTriggerFor]="menu">
                                 <mat-icon>more_vert</mat-icon>
@@ -105,7 +105,7 @@
                             <mat-menu #menu="matMenu">
                                 <button *ngIf="element.edit" (click)=" saveDependent(element, row)" type="submit" mat-menu-item>Save</button>
                                 <button *ngIf="!element.edit" (click)="editDependent(element)" mat-menu-item>Edit</button>
-                                <button mat-menu-item (click)="deleteDependent(row)" >Delete</button>
+                                <button *ngIf="!element.edit" mat-menu-item (click)="deleteDependent(row)" >Delete</button>
                                 <button *ngIf="element.edit" mat-menu-item (click)="cancelDependent(element, row)">Cancel</button>
                             </mat-menu>
                             </div>

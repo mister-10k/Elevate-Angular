@@ -6,9 +6,10 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material.module';
-import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { UserModule } from './user/user.module';
 import { EmployeeBenifitsModule } from './employeeBenifits/employee-benifits.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { LoaderInterceptor } from './shared/providers/loader-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { EmployeeBenifitsModule } from './employeeBenifits/employee-benifits.mod
     UserModule,
     EmployeeBenifitsModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true }]
 })
 export class AppModule { }

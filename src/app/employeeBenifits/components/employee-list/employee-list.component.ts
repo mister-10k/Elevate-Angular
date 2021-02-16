@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,7 +9,6 @@ import { EmployeeDialog } from '../employee-dialog/employee-dialog.component';
 import jwt_decode from "jwt-decode";
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
 import { take } from 'rxjs/operators';
-import { CdkRow } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-employee-list',
@@ -20,7 +19,7 @@ export class EmployeeListComponent implements OnInit {
 
   @Input() employeeFormMasterData: IEmployeeFormMasterData;
 
-  displayedColumns: string[] = ['Id', 'FirstName', 'LastName', 'Email', 'Dependents', 'CreatedAt', 'Actions'];
+  displayedColumns: string[] = ['Id', 'FirstName', 'LastName', 'Email', 'NumberOfDependents', 'CreatedAt', 'Actions'];
   dataSource = new MatTableDataSource<IEmployee>();
   employee: IEmployee;
   searchText: string = "";
@@ -105,7 +104,11 @@ export class EmployeeListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
         if (result.save) {
-          this.createEmployee(result.employee)
+          if (result.createOrUpdate == 'create') {
+            this.createEmployee(result.employee);
+          } else {
+            this.updateEmployee(result.employee);
+          }
         } else {
           let index = this.dataSource.data.findIndex(x => x.Id == employee.Id);
           if (index > -1)
@@ -117,6 +120,15 @@ export class EmployeeListComponent implements OnInit {
   createEmployee(employee: IEmployee) {
     const obs = this.employeeBenifitsService.createEmployee(employee);
     obs.pipe(take(1)).subscribe((addedEmployee) => {
+      this.employeeBenifitsService.reloadDashboard();
+      this.resetGrid()
+    }, err => console.log(err))
+  }
+
+  updateEmployee(employee: IEmployee) {
+    const obs = this.employeeBenifitsService.updateEmployeee(employee);
+    obs.pipe(take(1)).subscribe((updatedEmployee) => {
+      this.employeeBenifitsService.reloadDashboard();
       this.resetGrid()
     }, err => console.log(err))
   }
@@ -124,6 +136,7 @@ export class EmployeeListComponent implements OnInit {
   deleteEmployee(employeeId: number) {
     const obs = this.employeeBenifitsService.deleteEmployee(employeeId);
     obs.pipe(take(1)).subscribe((deletedEmployee) => {
+      this.employeeBenifitsService.reloadDashboard();
       this.resetGrid()
     }, err => console.log(err))
   }

@@ -5,6 +5,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RemoveDialog } from './components/remove-dialog/remove-dialog.component';
 import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { LoaderComponent } from './components/Loader/loader.component';
 
 
 
@@ -15,7 +16,8 @@ import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dial
   declarations: [
     NavbarComponent,
     FooterComponent,
-    RemoveDialog
+    RemoveDialog,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,8 @@ import { MatDialogRef, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dial
   exports: [
     NavbarComponent,
     FooterComponent,
-    RemoveDialog
+    RemoveDialog,
+    LoaderComponent
   ],
   providers: [
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } }

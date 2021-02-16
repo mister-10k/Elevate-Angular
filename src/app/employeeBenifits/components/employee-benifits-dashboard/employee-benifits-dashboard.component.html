@@ -1,6 +1,7 @@
 <div id="dashboard-container" class="d-flex justify-content-center">
     <div class="inner-container" class="d-flex flex-column">
-        <app-dashboard-stats></app-dashboard-stats>
-        <app-employee-list [employeeFormMasterData]="employeeFormMasterData"></app-employee-list>
+        <div class="mb-5"><app-dashboard-stats></app-dashboard-stats></div>
+        <div class="mb-5"><app-employee-list [employeeFormMasterData]="employeeFormMasterData"></app-employee-list></div>
+        <div class="mb-5"><app-highest-employee-deductions></app-highest-employee-deductions></div>
     </div>
 </div>

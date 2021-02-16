@@ -215,7 +215,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
       return;
 
     this.fillEmployee();    
-    this.dialogRef.close({ employee: this.employee, save: true });
+    this.dialogRef.close({ employee: this.employee, save: true, createOrUpdate: this.employee.Id == 0 ? 'create' : 'update' });
   }
 
   save() {

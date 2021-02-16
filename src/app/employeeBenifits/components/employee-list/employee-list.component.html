@@ -33,7 +33,7 @@
             <td width="14.28%" mat-cell *matCellDef="let element"> {{element.Email}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="Dependents">
+          <ng-container matColumnDef="NumberOfDependents">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Dependents </th>
             <td width="14.28%" mat-cell *matCellDef="let element"> {{element.NumberOfDependents}} </td>
           </ng-container>
@@ -52,7 +52,7 @@
                 </button>
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="openEmployeeDialog('readOnly', element)">View</button>
-                    <button mat-menu-item>Edit</button>
+                    <button mat-menu-item (click)="openEmployeeDialog('edit', element)">Edit</button>
                     <button mat-menu-item (click)="openRemoveDialog(element.Id)">Delete</button>
                 </mat-menu>
              </div>

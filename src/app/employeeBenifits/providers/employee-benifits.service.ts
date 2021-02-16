@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AppConstants } from 'src/app/shared/AppConstants';
-import { ITable } from 'src/app/shared/models/shared.model';
+import { IPrimeNGBarChartModel, ITable } from 'src/app/shared/models/shared.model';
 import { EmployeeBenifits } from '../constants/employeeBenifits';
 import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee, IEmployeeFormMasterData } from '../models/employeeBenifits.model';
 
@@ -11,14 +11,28 @@ import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee, IEmployeeFormM
 })
 export class EmployeeBenifitsService {
 
+  reloadDashboard$ = new BehaviorSubject<boolean>(false);
+
+  public reloadDashboard() {
+    this.reloadDashboard$.next(true);
+  }
+
   constructor(private http: HttpClient) { }
 
   createEmployee(employee: IEmployee): Observable<IEmployee> {
     return this.http.post<IEmployee>(AppConstants.employeeUrl, employee);
   }
 
+  updateEmployeee(employee: IEmployee): Observable<IEmployee> {
+    return this.http.put<IEmployee>(AppConstants.employeeUrl, employee);
+  }
+
   deleteEmployee(employeeId:number): Observable<IEmployee> {
     return this.http.delete<IEmployee>(AppConstants.employeeUrl + employeeId);
+  }
+
+  getTop10HighestEmployeeDedcutions(): Observable<IPrimeNGBarChartModel> {
+    return this.http.get<IPrimeNGBarChartModel>(AppConstants.employeeUrl + 'GetTop10HighestEmployeeDedcutions');
   }
 
   getEmployeesForEBDashboard(requestModel: IEBEmployeeListRequestModel): Observable<ITable> {

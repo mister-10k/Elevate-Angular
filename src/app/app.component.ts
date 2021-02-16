@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,10 @@ export class AppComponent {
 
   currentPathSub: Subscription | undefined;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private primengConfig: PrimeNGConfig) {}
 
   ngOnInit() {
+    this.primengConfig.ripple = true;
     this.currentPathSub = this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe(event => {
          this.currentPath = event.url;
