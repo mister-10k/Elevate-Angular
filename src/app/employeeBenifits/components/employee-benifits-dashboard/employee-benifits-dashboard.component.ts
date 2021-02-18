@@ -1,7 +1,7 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { IEmployeeFormMasterData } from '../../models/employeeBenifits.model';
+import { IEmployeeModelFormMasterData } from '../../models/employeeBenifits.model';
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { EmployeeBenifitsService } from '../../providers/employee-benifits.servi
 })
 export class EmployeeBenifitsDashboardComponent implements OnInit {
 
-  employeeFormMasterData: IEmployeeFormMasterData;
+  employeeFormMasterData: IEmployeeModelFormMasterData;
 
   constructor(private employeeBenifitsService: EmployeeBenifitsService) { }
 

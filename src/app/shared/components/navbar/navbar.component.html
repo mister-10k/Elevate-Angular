@@ -2,7 +2,7 @@
   <mat-toolbar style="background-color: white;" class="mat-elevation-z6 d-flex justify-content-between">
           <button class="icon-btn" mat-button routerLink="">🍁</button>
           <div class=" d-flex">
-              <button class="help-btn" mat-button >Help</button>
+              <button *ngIf="loggedIn()" class="log-out-btn" mat-button (click)="logOut()">Log Out</button>
           </div>
   </mat-toolbar>
 </div> 

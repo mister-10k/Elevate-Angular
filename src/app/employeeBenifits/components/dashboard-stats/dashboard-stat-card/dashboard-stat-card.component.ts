@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EBDashbaordStatsCardModel } from 'src/app/employeeBenifits/models/employeeBenifits.model';
 
 @Component({
   selector: 'app-dashboard-stat-card',
@@ -7,16 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DashboardStatCardComponent implements OnInit {
 
-  @Input() statName: string;
-  @Input() statNumber: number;
-  @Input() textColor: string;
+  @Input() data: EBDashbaordStatsCardModel;
   @Input() divider: boolean;
   
   constructor() { }
 
   ngOnInit(): void {
-    if (!this.textColor)
-      this.textColor = "grey";
   }
 
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AppConstants } from 'src/app/shared/AppConstants';
 import { IPrimeNGBarChartModel, ITable } from 'src/app/shared/models/shared.model';
 import { EmployeeBenifits } from '../constants/employeeBenifits';
-import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee, IEmployeeFormMasterData } from '../models/employeeBenifits.model';
+import { EBDashbaordStatsCardModel, IEBEmployeeList, IEBEmployeeListRequestModel, IEmployeeModel, IEmployeeModelFormMasterData } from '../models/employeeBenifits.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,31 +19,35 @@ export class EmployeeBenifitsService {
 
   constructor(private http: HttpClient) { }
 
-  createEmployee(employee: IEmployee): Observable<IEmployee> {
-    return this.http.post<IEmployee>(AppConstants.employeeUrl, employee);
+  createEmployee(employee: IEmployeeModel): Observable<IEmployeeModel> {
+    return this.http.post<IEmployeeModel>(AppConstants.employeeUrl, employee);
   }
 
-  updateEmployeee(employee: IEmployee): Observable<IEmployee> {
-    return this.http.put<IEmployee>(AppConstants.employeeUrl, employee);
+  updateEmployeee(employee: IEmployeeModel): Observable<IEmployeeModel> {
+    return this.http.put<IEmployeeModel>(AppConstants.employeeUrl, employee);
   }
 
-  deleteEmployee(employeeId:number): Observable<IEmployee> {
-    return this.http.delete<IEmployee>(AppConstants.employeeUrl + employeeId);
+  deleteEmployee(employeeId:number): Observable<IEmployeeModel> {
+    return this.http.delete<IEmployeeModel>(AppConstants.employeeUrl + employeeId);
   }
 
-  getTop10HighestEmployeeDedcutions(): Observable<IPrimeNGBarChartModel> {
-    return this.http.get<IPrimeNGBarChartModel>(AppConstants.employeeUrl + 'GetTop10HighestEmployeeDedcutions');
+  getEBDashboardCardsData(companyId: number): Observable<Array<EBDashbaordStatsCardModel>> {
+    return this.http.get<Array<EBDashbaordStatsCardModel>>(AppConstants.employeeUrl + 'getebdashboardcardsdata/' + companyId);
+  }
+
+  getTop10HighestEmployeeDedcutions(companyId: number): Observable<IPrimeNGBarChartModel> {
+    return this.http.get<IPrimeNGBarChartModel>(AppConstants.employeeUrl + 'GetTop10HighestEmployeeDedcutions/' + companyId);
   }
 
   getEmployeesForEBDashboard(requestModel: IEBEmployeeListRequestModel): Observable<ITable> {
     return this.http.post<ITable>(AppConstants.employeeUrl + 'GetEmployeesForEBDashboard', requestModel);
   }
 
-  getEmployeeFormMasterData(): Observable<IEmployeeFormMasterData> {
-    return this.http.get<IEmployeeFormMasterData>(AppConstants.employeeUrl + 'GetEmployeeFormMasterData');
+  getEmployeeFormMasterData(): Observable<IEmployeeModelFormMasterData> {
+    return this.http.get<IEmployeeModelFormMasterData>(AppConstants.employeeUrl + 'GetEmployeeFormMasterData');
   }
 
-  public getEmployeeDeductionCost(employee: IEmployee) {
+  public getEmployeeDeductionCost(employee: IEmployeeModel) {
     let total = 0.0;
     let employeeCost = EmployeeBenifits.CostOfEmployeeBenifits;
     if (employee.FirstName.toUpperCase().startsWith("A") )

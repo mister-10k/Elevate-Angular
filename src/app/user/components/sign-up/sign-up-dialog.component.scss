@@ -1,0 +1,15 @@
+#sign-up-container {
+    max-width: 400px;
+    form {
+        mat-form-field {
+            width: 100%;
+        }
+
+        .sign-up-btn {
+            width: 50%;
+            color: #fff;
+            background-color: #F03A17 !important;
+            border-color: #F03A17 !important;
+        }
+    }
+}

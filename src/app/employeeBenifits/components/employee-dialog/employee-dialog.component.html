@@ -87,7 +87,7 @@
                         <td width="31%" mat-cell *matCellDef="let element; let row = index">
                             <span *ngIf="!element.edit">{{element.RelationshipDisplayName}}</span>
                             <mat-form-field *ngIf="element.edit">
-                                <mat-select matNativeControl name="{{row + '-relationship'}}" [(ngModel)]="element.RelationshipId"  [compareWith]="compareWith" (selectionChange)="onRelationshipSelect($event, element)" required [required]="true" [errorStateMatcher]="matcher">
+                                <mat-select matNativeControl name="{{row + '-relationship'}}" [(ngModel)]="element.RelationshipId"  [compareWith]="compareWith" (selectionChange)="onRelationshipSelect($event, element)" [errorStateMatcher]="matcher">
                                     <mat-option *ngFor="let Relationship of masterData.Relationships" [value]="Relationship.Value">{{Relationship.Text}}</mat-option>
                                 </mat-select>
                                 <mat-error>You must select a value. </mat-error>

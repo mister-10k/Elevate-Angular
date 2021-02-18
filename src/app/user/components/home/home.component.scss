@@ -1,6 +1,9 @@
+$navbar-height: 64px;
+$view-height: 100vh;
+
 #home-container {
   background-color: #EAEAEA;
-  min-height: 100vh;
+  height: calc(#{$view-height} - #{$navbar-height});
   
   .icon {
     height: 80px;

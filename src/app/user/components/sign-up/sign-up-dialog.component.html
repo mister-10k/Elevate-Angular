@@ -1,0 +1,53 @@
+<div id="sign-up-container">
+    <div class="header">
+        <h1>Sign Up</h1>
+        <label>It's quick and easy.</label>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="signUp()" class="d-flex justify-content-between flex-column">
+        <div>
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName">
+                <mat-error>{{getSignUpFormControlErrorMsg('firstName')}}</mat-error>
+
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName">
+                <mat-error>{{getSignUpFormControlErrorMsg('lastName')}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="email-form-field">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+                <mat-error>{{getSignUpFormControlErrorMsg('email')}}</mat-error>
+            </mat-form-field>
+    
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password">
+                <mat-error>{{getSignUpFormControlErrorMsg('password')}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Comapny</mat-label>
+                <mat-select matNativeControl name="company" [compareWith]="compareWith" formControlName="company" >
+                    <mat-option *ngFor="let Comapny of masterData.Companies" [value]="Comapny.Value">{{Comapny.Text}}</mat-option>
+                </mat-select>
+                <mat-error>{{getSignUpFormControlErrorMsg('company')}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Role</mat-label>
+                <mat-select matNativeControl name="userTy[r" [compareWith]="compareWith" formControlName="userType">
+                    <mat-option *ngFor="let UserType of masterData.UserTypes" [value]="UserType.Value">{{UserType.Text}}</mat-option>
+                </mat-select>
+                <mat-error>{{getSignUpFormControlErrorMsg('userType')}}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="d-flex justify-content-center mt-2">
+            <button mat-raised-button type="submit" class="sign-up-btn">Sign Up</button>
+        </div>
+    </form>
+</div>

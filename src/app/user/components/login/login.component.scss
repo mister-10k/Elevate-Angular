@@ -1,36 +1,39 @@
 #login-container {
-    width: 400px;
-    height: 280px;
+    max-width: 400px;
+    height: 285px;
     background-color: white;
     border-radius: 10px;
     padding: 15px;
 
-    .icon {
-        font-size: 80px;
-    }
-
-    mat-form-field {
-        width: 100%;
-    }
-
-
-    .login-btn {
-        width: 100%;
-        margin-bottom: 8px;
-        color: #fff;
-        background-color: #F03A17 !important;
-        border-color: #F03A17 !important;
-    }
+    form {
+        height: 100%;
+        .icon {
+            font-size: 80px;
+        }
     
-    .register-btn {
-        width: 100%;
-        margin-top: 8px;
-        color: #fff;
-        background-color:  #007bff !important;
-        border-color:  #007bff !important;
-    }
-
-    .solid {
-        border-top: 1px solid lightgray;
+        mat-form-field {
+            width: 100%;
+        }
+    
+    
+        .login-btn {
+            width: 100%;
+            margin-bottom: 8px;
+            color: #fff;
+            background-color: #F03A17 !important;
+            border-color: #F03A17 !important;
+        }
+        
+        .register-btn {
+            width: 100%;
+            margin-top: 8px;
+            color: #fff;
+            background-color:  #007bff !important;
+            border-color:  #007bff !important;
+        }
+    
+        .solid {
+            border-top: 1px solid lightgray;
+        }
     }
 }

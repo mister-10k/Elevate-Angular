@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
+import jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'app-highest-employee-deductions',
@@ -50,7 +51,8 @@ export class HighestEmployeeDeductionsComponent implements OnInit, OnDestroy {
   }
 
   getChartData() {
-    const obs = this.employeeBenifitsService.getTop10HighestEmployeeDedcutions();
+    var jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;;
+    const obs = this.employeeBenifitsService.getTop10HighestEmployeeDedcutions(jwtDecoded.companyId);
     obs.pipe(take(1)).subscribe(data => {
       this.data = data;
     }, err => console.log(err));

@@ -1,5 +1,5 @@
 import { IListItem } from "src/app/shared/models/shared.model";
-import { IUser } from "src/app/user/models/user.model";
+import { IUserModel } from "src/app/user/models/user.model";
 
 export interface IDashboardStat {
     Name: string;
@@ -7,19 +7,19 @@ export interface IDashboardStat {
     TextColor: string;
 }
 
-export interface IEmployee extends IUser {
+export interface IEmployeeModel extends IUserModel {
     NumbeOfDependents: number;
-    Dependents: Array<IEmployeeDependent>;
+    Dependents: Array<IEmployeeModelDependent>;
     CreatedAtText: string;
 }
 
-export interface IEmployeeDependent extends IUser {
+export interface IEmployeeModelDependent extends IUserModel {
     EmployeeId: number;
     RelationshipId: number;
     RelationshipName?: string;
     RelationshipDisplayName?: string;
     edit?: boolean;
-    dependentCopy?: IEmployeeDependent;
+    dependentCopy?: IEmployeeModelDependent;
     freshEntry?: boolean;
 }
 
@@ -42,6 +42,14 @@ export interface IEBEmployeeList {
     TotalCount: number;
 }
 
-export interface IEmployeeFormMasterData {
+export interface IEmployeeModelFormMasterData {
     Relationships: Array<IListItem>;
+}
+
+export interface EBDashbaordStatsCardModel {
+    Title: string;
+    Color: string;
+    Number: number;
+    CurrencyType: string;
+    IsCurrency: boolean;
 }

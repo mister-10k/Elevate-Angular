@@ -1,21 +1,25 @@
-<div id="login-container" class="mat-elevation-z8">
-    <form [formGroup]="form" (ngSubmit)="login()">
-        <mat-form-field class="email-form-field">
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
-            <mat-error>Email required or invalid</mat-error>
-        </mat-form-field>
+<div id="login-container" class="m-2">
+    <form [formGroup]="form" (ngSubmit)="login()" class="d-flex justify-content-between flex-column">
+        <div>
+            <mat-form-field class="email-form-field">
+                <mat-label>Email</mat-label>
+                <input matInput formControlName="email">
+                <mat-error>Email required or invalid</mat-error>
+            </mat-form-field>
+    
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input type="password" matInput formControlName="password">
+                <mat-error>Password required</mat-error>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input type="password" matInput formControlName="password">
-            <mat-error>Password required</mat-error>
-        </mat-form-field>
+        <div>
+            <button mat-raised-button type="submit" class="login-btn">Login</button>
 
-        <button mat-raised-button type="submit" class="login-btn">Login</button>
+            <hr class="solid">
 
-        <hr class="solid">
-
-        <button mat-raised-button class="register-btn">Create New Account</button>
+            <button mat-raised-button class="register-btn" (click)="openSignUpDialog($event)">Create New Account</button>
+        </div>
     </form>
 </div>

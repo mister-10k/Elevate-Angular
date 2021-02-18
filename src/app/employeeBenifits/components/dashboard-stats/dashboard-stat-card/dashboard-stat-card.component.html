@@ -1,8 +1,7 @@
-<div>
-    <div id="card-container" class="d-flex justify-content-center align-items-center flex-column">
-        <div class="stat-name">{{statName}}</div>
-        <div class="stat-number" [style.color]="textColor">{{statNumber}}</div>
-    </div>
-    <div class="divider"></div>
+<div id="card-container" class="d-flex flex-column justify-content-between" [style.margin-right.px]="divider ? '10' : ''">
+    <div class="stat-name">{{data.Title}}</div>
+    <div *ngIf="!data.IsCurrency" class="stat-number" [style.color]="data.Color">{{data.Number}}</div>
+    <div *ngIf="data.IsCurrency" class="stat-number" [style.color]="data.Color">{{data.Number | currency}}</div>
 </div>
+
 

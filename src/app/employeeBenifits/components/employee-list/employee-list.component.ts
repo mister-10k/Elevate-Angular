@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { RemoveDialog } from 'src/app/shared/components/remove-dialog/remove-dialog.component';
-import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployee, IEmployeeFormMasterData } from '../../models/employeeBenifits.model';
+import { IEBEmployeeList, IEBEmployeeListRequestModel, IEmployeeModel, IEmployeeModelFormMasterData } from '../../models/employeeBenifits.model';
 import { EmployeeDialog } from '../employee-dialog/employee-dialog.component';
 import jwt_decode from "jwt-decode";
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
@@ -17,11 +17,11 @@ import { take } from 'rxjs/operators';
 })
 export class EmployeeListComponent implements OnInit {
 
-  @Input() employeeFormMasterData: IEmployeeFormMasterData;
+  @Input() employeeFormMasterData: IEmployeeModelFormMasterData;
 
   displayedColumns: string[] = ['Id', 'FirstName', 'LastName', 'Email', 'NumberOfDependents', 'CreatedAt', 'Actions'];
-  dataSource = new MatTableDataSource<IEmployee>();
-  employee: IEmployee;
+  dataSource = new MatTableDataSource<IEmployeeModel>();
+  employee: IEmployeeModel;
   searchText: string = "";
   requestModel: IEBEmployeeListRequestModel = {
     CompanyId: 0,
@@ -95,7 +95,7 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  openEmployeeDialog(mode: string, employee? :IEmployee) {
+  openEmployeeDialog(mode: string, employee? :IEmployeeModel) {
     const dialogRef = this.dialog.open(EmployeeDialog, {
       width: '1036px',
       disableClose: mode != 'readOnly' ? true : false,
@@ -117,7 +117,7 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  createEmployee(employee: IEmployee) {
+  createEmployee(employee: IEmployeeModel) {
     const obs = this.employeeBenifitsService.createEmployee(employee);
     obs.pipe(take(1)).subscribe((addedEmployee) => {
       this.employeeBenifitsService.reloadDashboard();
@@ -125,7 +125,7 @@ export class EmployeeListComponent implements OnInit {
     }, err => console.log(err))
   }
 
-  updateEmployee(employee: IEmployee) {
+  updateEmployee(employee: IEmployeeModel) {
     const obs = this.employeeBenifitsService.updateEmployeee(employee);
     obs.pipe(take(1)).subscribe((updatedEmployee) => {
       this.employeeBenifitsService.reloadDashboard();
