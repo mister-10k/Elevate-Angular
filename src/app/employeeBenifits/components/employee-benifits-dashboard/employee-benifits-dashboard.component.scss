@@ -1,8 +1,30 @@
 #dashboard-container {
     padding-top: 40px;
     min-height: 100vh;    
+}
 
-    .inner-container {
-        width: 1036px;
+@media (min-width: 300px) { 
+    #dashboard-container { 
+        .inner-container {
+            width: 450px;
+        }
+    }
+ }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 680px) {  
+    #dashboard-container { 
+        .inner-container {
+            width: 630px;
+        }
+    }
+}
+
+
+@media (min-width: 1080px) { 
+    #dashboard-container { 
+        .inner-container {
+            width: 1036px;
+        }
     }
 }

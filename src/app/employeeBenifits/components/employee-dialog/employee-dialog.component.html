@@ -5,47 +5,47 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row mb-4">
-                    <div class="col-md-3">
+                    <div class="col-6 col-md-3">
                         <mat-form-field>
                             <mat-label class="required-field">First Name</mat-label>
                             <input [disabled]="readOnly" formControlName="firstName" matInput autocomplete="off" maxlength="10"/>
                             <mat-error>{{getEmployeeFormControlErrorMsg('firstName')}}</mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-3">
+                    <div  class="col-6 col-md-3">
                         <mat-form-field>
                             <mat-label class="required-field">Last Name</mat-label>
                             <input [disabled]="readOnly" formControlName="lastName" matInput autocomplete="off" maxlength="10"/>
                             <mat-error>{{getEmployeeFormControlErrorMsg('lastName')}}</mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-3">
+                    <div  class="col-6 col-md-3">
                         <mat-form-field>
                             <mat-label class="required-field">Email</mat-label>
                             <input [disabled]="readOnly" formControlName="email" matInput autocomplete="off"/>
                             <mat-error>{{getEmployeeFormControlErrorMsg('email')}}</mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-3 ">
+                    <div  class="col-6 col-md-3">
                         <mat-label>Date Joined</mat-label>
                         <div>{{employee.CreatedAtText}}</div>
                     </div>
                 </div>
                 <div class="row mb-4">                    
-                    <div class="col-md-3">
+                    <div  class="col-6 col-md-3">
                         <mat-label>Salary</mat-label>
                         <div>{{52000 | currency }}</div>
                     </div>
     
-                    <div class="col-md-3">
+                    <div  class="col-6 col-md-3">
                         <mat-label>Deduction bi-weekly</mat-label>
                         <div>{{getEmployeeDeductionCost('biWeekly') | currency}}</div>
                     </div>
-                    <div class="col-md-3">
+                    <div  class="col-6 col-md-3">
                         <mat-label>Deduction per month</mat-label>
                         <div>{{getEmployeeDeductionCost('month') | currency}}</div>
                     </div>
-                    <div class="col-md-3 ">
+                    <div  class="col-6 col-md-3">
                         <mat-label>Deduction per year</mat-label>
                         <div>{{getEmployeeDeductionCost('year') | currency}}</div>
                     </div>

@@ -1,7 +1,5 @@
 #card-container {
     margin-top: 10px;
-    min-width: 199px;
-    height: 184px;
     background-color: white;
     padding: 22px;
 
@@ -16,10 +14,16 @@
     }
 }
 
-// .divider {
-//     border-left: 1px solid #dee2e6; 
-//     border-right: 1px solid #dee2e6; 
-//     height:70px !important;
-//     position: absolute;
-//     top: 500;
-// }
+@media (max-width: 679px) { 
+     #card-container {
+        width: 215px;
+        height: 184px;
+    }
+}
+
+ @media (min-width: 680px) { 
+    #card-container {
+        min-width: 199px;
+        height: 184px;
+    }
+}

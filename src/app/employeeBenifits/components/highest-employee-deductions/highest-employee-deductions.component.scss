@@ -1,10 +1,23 @@
 #hed-container {
-    width: 1036px;
+    width: 100%;
     background-color: white;
     padding: 20px;
 
     .header {
-        height: 70px;
+        
+    }
+}
+
+@media (max-width: 679px) { 
+    .header { 
+        font-size: 18px;
+        height: 40px;
+    }
+}
+
+@media (min-width: 680px) { 
+    .header {
         font-size: 25px;
+        height: 70px;
     }
 }

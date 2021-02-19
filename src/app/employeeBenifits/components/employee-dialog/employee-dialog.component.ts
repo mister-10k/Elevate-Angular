@@ -8,6 +8,8 @@ import { IEmployeeModel, IEmployeeModelDependent, IEmployeeModelFormMasterData }
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
 import jwt_decode from "jwt-decode";
 import { SelectErrorStateMatcher } from 'src/app/shared/errorStateMatchers/SelectErrorStateMatcher';
+import { UserService } from 'src/app/user/providers/user.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-dialog',
@@ -31,11 +33,13 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
   masterData: IEmployeeModelFormMasterData;
   newDependent: IEmployeeModelDependent;
   matcher = new SelectErrorStateMatcher();
+  emailSubscription: Subscription;
 
   @ViewChild('employeeDependentsForm', { static: true }) employeeDependentsForm: NgForm;
 
   constructor(private dialogRef: MatDialogRef<EmployeeDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: { viewMode: string, employee: IEmployeeModel, masterData: IEmployeeModelFormMasterData },
+    @Inject(MAT_DIALOG_DATA) public data: { viewMode: string, employee: IEmployeeModel,
+    masterData: IEmployeeModelFormMasterData }, private userService: UserService,
     private employeeBenifitsService: EmployeeBenifitsService) { 
       if (!data.employee) {
         let jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;
@@ -57,6 +61,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
     }
 
   ngOnInit(): void {
+    this.setEmailSubscription();
     if (this.viewMode == 'readOnly') {
       this.readOnly = true;
       this.disableEmployeeFormControls();
@@ -188,8 +193,29 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
     return result;
   }
 
+  setEmailSubscription() {
+    const obs = this.form.get('email').valueChanges;
+    this.emailSubscription = obs.subscribe(val => {
+      if (this.form.get('email').valid) {
+        const obs2 = this.userService.userAlreadyHasEmail(val);
+        obs2.pipe(take(1)).subscribe((exists) => {
+          let errors = this.form.get('email').errors;
+          if (exists) {
+            if (errors) {
+              errors.emailTaken = true;
+            } else {
+              errors = { emailTaken: true }
+            }
+            this.form.get('email').setErrors(errors);
+          } 
+        }, err => console.log(err))
+      }
+    });
+  }
+
   getEmployeeFormControlErrorMsg(controlName: string) {
-    return this.form.get(controlName).hasError('required') ? 'You must enter a value.' :             
+    return this.form.get(controlName).hasError('required') ? 'You must enter a value.' :
+           this.form.get(controlName).hasError('emailTaken') ? 'Email is already taken.' :                   
            this.form.get(controlName).hasError('email') ? 'Email is not valid.': '';
   }
 
@@ -204,10 +230,6 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
 
     this.fillEmployee();    
     this.dialogRef.close({ employee: this.employee, save: true, createOrUpdate: this.employee.Id == 0 ? 'create' : 'update' });
-  }
-
-  save() {
-
   }
 
 }

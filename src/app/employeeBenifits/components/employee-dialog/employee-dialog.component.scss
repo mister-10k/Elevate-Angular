@@ -45,3 +45,11 @@
         border-color: #F03A17 !important;
     }
 }
+
+@media (max-width: 679px) { 
+    form {
+        mat-form-field {
+            width: 120px;
+        }
+    }
+}

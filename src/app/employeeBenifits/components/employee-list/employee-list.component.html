@@ -1,5 +1,5 @@
 <div id="list-container">
-    <div class="border">
+    <div id="list-container-inner" class="border">
         <div class="d-flex justify-content-between header">
           <div class="header-title">Employees</div>
           <div class="search-add d-flex">
@@ -35,7 +35,7 @@
 
           <ng-container matColumnDef="NumberOfDependents">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Dependents </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.NumberOfDependents}} </td>
+            <td class="dependents-cell" width="14.28%" mat-cell *matCellDef="let element"> {{element.NumberOfDependents}} </td>
           </ng-container>
 
           <ng-container matColumnDef="CreatedAt">
