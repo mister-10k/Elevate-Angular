@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     if (!this.form.valid)
       return;
     
-    const obs = this.userService.login(this.form.get('email').value, this.form.get('password').value);
+    const obs = this.userService.login(this.form.get('email').value,  this.form.get('password').value);
     obs.pipe(take(1)).subscribe(token => {
       if (token) {
         localStorage.setItem('jwtToken', token);

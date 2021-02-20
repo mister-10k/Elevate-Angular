@@ -50,7 +50,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
           CompanyId: jwtDecoded.companyId,
           NumbeOfDependents: 0,
           Dependents: [],
-          CreatedAtText: '--',
+          CreatedAt: '--',
         }
       } else {
         this.employee = data.employee;
@@ -155,7 +155,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
   onRelationshipSelect($event, element: IEmployeeModelDependent) {
     let relationship = this.masterData.Relationships.find(x => x.Value == $event.value);
     if (relationship)
-      element.RelationshipDisplayName = relationship.Text
+      element.Relationship = relationship.Text
   }
 
   compareWith(v1: any, v2: any): boolean {

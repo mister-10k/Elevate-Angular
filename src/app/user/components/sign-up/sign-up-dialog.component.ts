@@ -66,7 +66,7 @@ export class SignUpDialog implements OnInit {
     this.userModel.FirstName = this.form.get('firstName').value;
     this.userModel.LastName = this.form.get('lastName').value;
     this.userModel.Email = this.form.get('email').value;
-    this.userModel.Password = this.form.get('password').value;
+    this.userModel.Password = this.userService.hashPassword(this.form.get('password').value);
     this.userModel.CompanyId = this.form.get('company').value;
     this.userModel.UserTypeId = this.form.get('userType').value;
   }

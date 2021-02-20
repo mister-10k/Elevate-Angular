@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConstants } from 'src/app/shared/AppConstants';
 import { ISignUpMasterDataModel, IUserModel } from '../models/user.model';
+import * as bcrypt from 'bcryptjs'
 
 
 @Injectable({
@@ -34,5 +35,10 @@ export class UserService {
 
   public get loggedIn(): boolean {
     return (localStorage.getItem('jwtToken') !== null);
+  }
+
+  hashPassword(password: string): string {
+    var salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
   }
 }

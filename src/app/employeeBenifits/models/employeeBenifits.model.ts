@@ -10,14 +10,13 @@ export interface IDashboardStat {
 export interface IEmployeeModel extends IUserModel {
     NumbeOfDependents: number;
     Dependents: Array<IEmployeeModelDependent>;
-    CreatedAtText: string;
+    CreatedAt: string;
 }
 
 export interface IEmployeeModelDependent extends IUserModel {
     EmployeeId: number;
     RelationshipId: number;
-    RelationshipName?: string;
-    RelationshipDisplayName?: string;
+    Relationship?: string;
     edit?: boolean;
     dependentCopy?: IEmployeeModelDependent;
     freshEntry?: boolean;

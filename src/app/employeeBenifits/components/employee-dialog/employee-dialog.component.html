@@ -28,7 +28,7 @@
                     </div>
                     <div  class="col-6 col-md-3">
                         <mat-label>Date Joined</mat-label>
-                        <div>{{employee.CreatedAtText}}</div>
+                        <div>{{employee.CreatedAt}}</div>
                     </div>
                 </div>
                 <div class="row mb-4">                    
@@ -85,7 +85,7 @@
                     <ng-container matColumnDef="Relationship">
                         <th mat-header-cell *matHeaderCellDef>Relationship</th>
                         <td width="31%" mat-cell *matCellDef="let element; let row = index">
-                            <span *ngIf="!element.edit">{{element.RelationshipDisplayName}}</span>
+                            <span *ngIf="!element.edit">{{element.Relationship}}</span>
                             <mat-form-field *ngIf="element.edit">
                                 <mat-select matNativeControl name="{{row + '-relationship'}}" [(ngModel)]="element.RelationshipId"  [compareWith]="compareWith" (selectionChange)="onRelationshipSelect($event, element)" [errorStateMatcher]="matcher">
                                     <mat-option *ngFor="let Relationship of masterData.Relationships" [value]="Relationship.Value">{{Relationship.Text}}</mat-option>

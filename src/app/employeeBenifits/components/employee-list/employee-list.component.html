@@ -35,12 +35,12 @@
 
           <ng-container matColumnDef="NumberOfDependents">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Dependents </th>
-            <td class="dependents-cell" width="14.28%" mat-cell *matCellDef="let element"> {{element.NumberOfDependents}} </td>
+            <td class="dependents-cell" width="14.28%" mat-cell *matCellDef="let element"> {{element.Dependents.length}} </td>
           </ng-container>
 
           <ng-container matColumnDef="CreatedAt">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Joined </th>
-            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.CreatedAtText}} </td>
+            <td width="14.28%" mat-cell *matCellDef="let element"> {{element.CreatedAt}} </td>
           </ng-container>
 
           <ng-container matColumnDef="Actions">
