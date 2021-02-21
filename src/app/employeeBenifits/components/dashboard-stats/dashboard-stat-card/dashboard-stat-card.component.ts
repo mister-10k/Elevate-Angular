@@ -8,7 +8,7 @@ import { EBDashbaordStatsCardModel } from 'src/app/employeeBenifits/models/emplo
 })
 export class DashboardStatCardComponent implements OnInit {
 
-  @Input() data: EBDashbaordStatsCardModel;
+  @Input() data: EBDashbaordStatsCardModel = { Title: '', Color: '', Number: 0, CurrencyType: '', IsCurrency: false};
   @Input() divider: boolean;
   
   constructor() { }

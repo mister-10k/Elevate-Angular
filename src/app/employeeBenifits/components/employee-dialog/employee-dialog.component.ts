@@ -38,11 +38,16 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
   @ViewChild('employeeDependentsForm', { static: true }) employeeDependentsForm: NgForm;
 
   constructor(private dialogRef: MatDialogRef<EmployeeDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: { viewMode: string, employee: IEmployeeModel,
-    masterData: IEmployeeModelFormMasterData }, private userService: UserService,
-    private employeeBenifitsService: EmployeeBenifitsService) { 
+              @Inject(MAT_DIALOG_DATA) public data: { viewMode: string, employee: IEmployeeModel, masterData: IEmployeeModelFormMasterData },
+              private userService: UserService,
+              private employeeBenifitsService: EmployeeBenifitsService) { 
       if (!data.employee) {
-        let jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;
+        let jwt = localStorage.getItem('jwtToken');
+        let jwtDecoded = { companyId: 0 };
+        if (jwt) {
+          jwtDecoded = jwt_decode(jwt) as any;
+        }
+        
         this.employee = {
           Id: 0,
           FirstName: '',
@@ -196,7 +201,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
   setEmailSubscription() {
     const obs = this.form.get('email').valueChanges;
     this.emailSubscription = obs.subscribe(val => {
-      if (this.form.get('email').valid) {
+      if (this.form.get('email').valid && this.form.get('email').value != this.employeeBackup.Email) {
         const obs2 = this.userService.userAlreadyHasEmail(val);
         obs2.pipe(take(1)).subscribe((exists) => {
           let errors = this.form.get('email').errors;

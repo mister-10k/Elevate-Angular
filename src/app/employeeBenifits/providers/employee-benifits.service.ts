@@ -24,7 +24,7 @@ export class EmployeeBenifitsService {
   }
 
   updateEmployeee(employee: IEmployeeModel): Observable<IEmployeeModel> {
-    return this.http.put<IEmployeeModel>(AppConstants.employeeUrl, employee);
+    return this.http.patch<IEmployeeModel>(AppConstants.employeeUrl, employee);
   }
 
   deleteEmployee(employeeId:number): Observable<IEmployeeModel> {

@@ -18,7 +18,11 @@ export class EmployeeBenifitsDashboardComponent implements OnInit {
   ngOnInit(): void {
     const obs = this.employeeBenifitsService.getEmployeeFormMasterData();
     obs.pipe(take(1)).subscribe(data => {
-      this.employeeFormMasterData = data;
+      if (data) {
+        this.employeeFormMasterData = data;
+      } else {
+        this.employeeFormMasterData = { Relationships: [] };
+      }  
     }, err => console.log(err));
   }
 

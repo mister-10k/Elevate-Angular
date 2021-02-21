@@ -32,8 +32,10 @@ export class SignUpDialog implements OnInit {
     LastName: "",
   }
 
-  constructor(private dialogRef: MatDialogRef<SignUpDialog>, private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) public data: { masterData: ISignUpMasterDataModel }, private router: Router) { 
+  constructor(private dialogRef: MatDialogRef<SignUpDialog>,
+              private userService: UserService,
+              @Inject(MAT_DIALOG_DATA) public data: { masterData: ISignUpMasterDataModel },
+              private router: Router) { 
       if (!data || !data.masterData) {
         this.masterData = { Companies: [], UserTypes: [] };
       } else {

@@ -51,11 +51,14 @@ export class HighestEmployeeDeductionsComponent implements OnInit, OnDestroy {
   }
 
   getChartData() {
-    var jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;;
-    const obs = this.employeeBenifitsService.getTop10HighestEmployeeDedcutions(jwtDecoded.companyId);
-    obs.pipe(take(1)).subscribe(data => {
-      this.data = data;
-    }, err => console.log(err));
+    let jwt = localStorage.getItem('jwtToken');
+    if (jwt) {
+      let jwtDecoded = jwt_decode(jwt) as any;
+      const obs = this.employeeBenifitsService.getTop10HighestEmployeeDedcutions(jwtDecoded.companyId);
+      obs.pipe(take(1)).subscribe(data => {
+        this.data = data;
+      }, err => console.log(err));
+    }
   }
   
   setReloadDashboardSub() {

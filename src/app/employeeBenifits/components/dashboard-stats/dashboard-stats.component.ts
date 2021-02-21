@@ -35,11 +35,14 @@ export class DashboardStatsComponent implements OnInit, OnDestroy {
   }
 
   getEBDashboardCardsData() {
-    var jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;;
-    const obs = this.employeeBenifitsService.getEBDashboardCardsData(jwtDecoded.companyId);
-    obs.pipe(take(1)).subscribe((data) => {
-      this.data = data;
-    }, err => console.log(err))
+    var jwt = localStorage.getItem('jwtToken');
+    if (jwt) {
+      var jwtDecoded = jwt_decode(jwt) as any;;
+      const obs = this.employeeBenifitsService.getEBDashboardCardsData(jwtDecoded.companyId);
+      obs.pipe(take(1)).subscribe((data) => {
+        this.data = data;
+      }, err => console.log(err))
+    }
   }
 
 }

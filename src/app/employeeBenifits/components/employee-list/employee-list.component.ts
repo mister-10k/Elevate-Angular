@@ -9,6 +9,8 @@ import { EmployeeDialog } from '../employee-dialog/employee-dialog.component';
 import jwt_decode from "jwt-decode";
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
 import { take } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -35,7 +37,10 @@ export class EmployeeListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   
-  constructor(private dialog: MatDialog, private employeeBenifitsService: EmployeeBenifitsService) { }
+  constructor(private dialog: MatDialog,
+              private employeeBenifitsService: EmployeeBenifitsService,
+              private snackBar: MatSnackBar,
+              private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -51,15 +56,20 @@ export class EmployeeListComponent implements OnInit {
           this.paginator.pageIndex = 0;
 
     this.setRequestModel();
-    const obs = this.employeeBenifitsService.getEmployeesForEBDashboard(this.requestModel);
-    obs.pipe(take(1)).subscribe((data) => {
-      if (data)
-      {
-        this.dataSource.data = data.Rows;
-        this.paginator.length = data.TotalCount
-      }
-      // this.openSuccessSnackBar('Excel download complete.');
-    }, err => console.log(err));
+    if (this.requestModel.CompanyId != 0) {
+      const obs = this.employeeBenifitsService.getEmployeesForEBDashboard(this.requestModel);
+      obs.pipe(take(1)).subscribe((data) => {
+        if (data)
+        {
+          this.dataSource.data = data.Rows;
+          this.paginator.length = data.TotalCount
+        }
+        // this.openSuccessSnackBar('Excel download complete.');
+      }, err => console.log(err));
+    } else {
+      this.openSnackBar("Session expired.", "Log Out");
+      this.router.navigate(['']);
+    }
   }
 
   resetGrid() {
@@ -70,18 +80,24 @@ export class EmployeeListComponent implements OnInit {
   }
 
   setRequestModel() {
-    var jwtDecoded = jwt_decode(localStorage.getItem('jwtToken')) as any;
-    this.requestModel.CompanyId = jwtDecoded.companyId;
-    this.requestModel.SearchText = this.searchText;
-    if (this.sort.direction == '') { // default sort order
-      this.requestModel.SortBy = 'asc';
-      this.requestModel.SortColumn = 'Id';
+    const jwt = localStorage.getItem('jwtToken');
+
+    if (jwt) {
+      const jwtDecoded = jwt_decode(jwt) as any;
+      this.requestModel.CompanyId = jwtDecoded.companyId;
+      this.requestModel.SearchText = this.searchText;
+      if (this.sort.direction == '') { // default sort order
+        this.requestModel.SortBy = 'asc';
+        this.requestModel.SortColumn = 'Id';
+      } else {
+        this.requestModel.SortBy = this.sort.direction;
+        this.requestModel.SortColumn = this.sort.active ? this.sort.active : 'Id';
+      }
+      this.requestModel.PageSize = this.paginator.pageSize;
+      this.requestModel.PageNumber = this.paginator.pageIndex;
     } else {
-      this.requestModel.SortBy = this.sort.direction;
-      this.requestModel.SortColumn = this.sort.active ? this.sort.active : 'Id';
-    }
-    this.requestModel.PageSize = this.paginator.pageSize;
-    this.requestModel.PageNumber = this.paginator.pageIndex;
+      this.requestModel.CompanyId = 0;
+    } 
   }
 
   openRemoveDialog(employeeId: number): void {
@@ -120,25 +136,47 @@ export class EmployeeListComponent implements OnInit {
   createEmployee(employee: IEmployeeModel) {
     const obs = this.employeeBenifitsService.createEmployee(employee);
     obs.pipe(take(1)).subscribe((addedEmployee) => {
-      this.employeeBenifitsService.reloadDashboard();
-      this.resetGrid()
-    }, err => console.log(err))
+      if (addedEmployee) {
+        this.employeeBenifitsService.reloadDashboard();
+        this.openSnackBar("Create employee successful.", "Create");
+        this.resetGrid();
+      } else {
+        this.openSnackBar("Failed to create employee.", "Create");
+      }      
+    }, err => this.openSnackBar("Failed to create employee.", "Create"))
   }
 
   updateEmployee(employee: IEmployeeModel) {
     const obs = this.employeeBenifitsService.updateEmployeee(employee);
     obs.pipe(take(1)).subscribe((updatedEmployee) => {
-      this.employeeBenifitsService.reloadDashboard();
-      this.resetGrid()
-    }, err => console.log(err))
+      if (updatedEmployee) {
+        this.employeeBenifitsService.reloadDashboard();
+        this.openSnackBar("Update employee successful.", "Update");
+        this.resetGrid();
+      } else {
+        this.openSnackBar("Failed to update employee.", "Update");
+      }  
+    }, err => this.openSnackBar("Failed to update employee.", "Update"))
   }
 
   deleteEmployee(employeeId: number) {
     const obs = this.employeeBenifitsService.deleteEmployee(employeeId);
     obs.pipe(take(1)).subscribe((deletedEmployee) => {
-      this.employeeBenifitsService.reloadDashboard();
-      this.resetGrid()
-    }, err => console.log(err))
+      if (deletedEmployee) {
+        this.employeeBenifitsService.reloadDashboard();
+        this.openSnackBar("Delete employee successful.", "Delete");
+        this.resetGrid();
+      } else {
+        this.openSnackBar("Failed to delete employee.", "Delete");
+      }
+    }, err => this.openSnackBar("Failed to delete employee.", "Delete"))
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      panelClass: ['elevate-snackbar'],
+      duration: 5000,
+    });
   }
 
 }

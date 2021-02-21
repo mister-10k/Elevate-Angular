@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { RemoveDialog } from './remove-dialog.component';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { RemoveDialog } from './remove-dialog.component'
 
 describe('RemoveDialog', () => {
   let component: RemoveDialog;
@@ -8,7 +8,12 @@ describe('RemoveDialog', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RemoveDialog ]
+      imports: [MatDialogModule],
+      declarations: [ RemoveDialog ],
+      providers: [
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatDialogRef, useValue: {} }
+      ]
     })
     .compileComponents();
   });

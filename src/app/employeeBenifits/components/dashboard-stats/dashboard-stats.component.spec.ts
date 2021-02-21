@@ -1,14 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
 
 import { DashboardStatsComponent } from './dashboard-stats.component';
 
 describe('DashboardStatsComponent', () => {
   let component: DashboardStatsComponent;
   let fixture: ComponentFixture<DashboardStatsComponent>;
+  let httpClientSpy: { get: jasmine.Spy };
+  let employeeBenifitsService: EmployeeBenifitsService;
 
   beforeEach(async () => {
+    httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
+    employeeBenifitsService = new EmployeeBenifitsService(httpClientSpy as any);
+    
     await TestBed.configureTestingModule({
-      declarations: [ DashboardStatsComponent ]
+      declarations: [ DashboardStatsComponent ],
+      providers: [{provide:EmployeeBenifitsService, useValue: employeeBenifitsService }]
     })
     .compileComponents();
   });

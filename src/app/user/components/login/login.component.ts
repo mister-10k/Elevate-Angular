@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import { ISignUpMasterDataModel } from '../../models/user.model';
@@ -21,7 +22,10 @@ export class LoginComponent implements OnInit {
   });
   signUpMasterData: ISignUpMasterDataModel;
 
-  constructor(private userService: UserService, private router: Router, private dialog: MatDialog) { }
+  constructor(private userService: UserService,
+              private router: Router,
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.getSignUpMasterData();
@@ -35,9 +39,17 @@ export class LoginComponent implements OnInit {
     obs.pipe(take(1)).subscribe(token => {
       if (token) {
         localStorage.setItem('jwtToken', token);
+        this.openSnackBar("login success.", "login")
         this.router.navigate(['/employeeBenifits/Dashboard']);
       }
-    }, err => console.log(err));
+    }, err => {
+      console.log(err);
+      if (err && err.status == 401) {
+        this.openSnackBar("Invalid login credentials. Please try again.", "Login")
+      } else {
+        this.openSnackBar("Login failed.", "Login")
+      }      
+    });
   }
 
   getSignUpMasterData() {
@@ -56,6 +68,13 @@ export class LoginComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
         
+    });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      panelClass: ['elevate-snackbar'],
+      duration: 5000,
     });
   }
 }
