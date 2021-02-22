@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AppConstants } from 'src/app/shared/AppConstants';
 import { ISignUpMasterDataModel, IUserModel } from '../models/user.model';
 import * as bcrypt from 'bcryptjs'
@@ -11,7 +11,13 @@ import * as bcrypt from 'bcryptjs'
 })
 export class UserService {
 
+  public sessionExpired$: Subject<boolean> = new Subject();
+
   constructor(private http: HttpClient) { }
+
+  public sessionExpired() {
+    this.sessionExpired$.next(true);
+  }
 
   login(email: string, password: string): Observable<string> {
     return this.http.post<string>(AppConstants.userUrl + 'login', {  Email: email, Password: password });

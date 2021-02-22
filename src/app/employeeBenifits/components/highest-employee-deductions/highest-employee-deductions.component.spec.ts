@@ -22,6 +22,7 @@ describe('HighestEmployeeDeductionsComponent', () => {
   beforeEach(async () => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     employeeBenifitsService = new EmployeeBenifitsService(httpClientSpy as any);
+    spyOn(employeeBenifitsService, 'getTop10HighestEmployeeDedcutions').and.returnValue(of({ labels: [], datasets: [] }));
     
     await TestBed.configureTestingModule({
       declarations: [ HighestEmployeeDeductionsComponent ],

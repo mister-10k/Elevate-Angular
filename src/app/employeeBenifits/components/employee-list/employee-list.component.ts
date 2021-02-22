@@ -39,8 +39,7 @@ export class EmployeeListComponent implements OnInit {
   
   constructor(private dialog: MatDialog,
               private employeeBenifitsService: EmployeeBenifitsService,
-              private snackBar: MatSnackBar,
-              private router: Router) { }
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -56,20 +55,15 @@ export class EmployeeListComponent implements OnInit {
           this.paginator.pageIndex = 0;
 
     this.setRequestModel();
-    if (this.requestModel.CompanyId != 0) {
-      const obs = this.employeeBenifitsService.getEmployeesForEBDashboard(this.requestModel);
-      obs.pipe(take(1)).subscribe((data) => {
-        if (data)
-        {
-          this.dataSource.data = data.Rows;
-          this.paginator.length = data.TotalCount
-        }
-        // this.openSuccessSnackBar('Excel download complete.');
-      }, err => console.log(err));
-    } else {
-      this.openSnackBar("Session expired.", "Log Out");
-      this.router.navigate(['']);
-    }
+    const obs = this.employeeBenifitsService.getEmployeesForEBDashboard(this.requestModel);
+    obs.pipe(take(1)).subscribe((data) => {
+      if (data)
+      {
+        this.dataSource.data = data.Rows;
+        this.paginator.length = data.TotalCount
+      }
+      // this.openSuccessSnackBar('Excel download complete.');
+    }, err => console.log(err));
   }
 
   resetGrid() {
@@ -95,8 +89,6 @@ export class EmployeeListComponent implements OnInit {
       }
       this.requestModel.PageSize = this.paginator.pageSize;
       this.requestModel.PageNumber = this.paginator.pageIndex;
-    } else {
-      this.requestModel.CompanyId = 0;
     } 
   }
 
@@ -119,6 +111,7 @@ export class EmployeeListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         if (result.save) {
           if (result.createOrUpdate == 'create') {
             this.createEmployee(result.employee);
@@ -130,6 +123,7 @@ export class EmployeeListComponent implements OnInit {
           if (index > -1)
             this.dataSource.data.splice(index,1,employee);
         }
+      }
     });
   }
 
@@ -147,7 +141,7 @@ export class EmployeeListComponent implements OnInit {
   }
 
   updateEmployee(employee: IEmployeeModel) {
-    const obs = this.employeeBenifitsService.updateEmployeee(employee);
+    const obs = this.employeeBenifitsService.updateEmployee(employee);
     obs.pipe(take(1)).subscribe((updatedEmployee) => {
       if (updatedEmployee) {
         this.employeeBenifitsService.reloadDashboard();

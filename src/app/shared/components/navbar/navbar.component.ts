@@ -14,9 +14,20 @@ import { UserService } from 'src/app/user/providers/user.service';
 })
 export class NavbarComponent implements OnInit {
 
+  currentPath = '';
+  currentPathSub: Subscription;
+
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.setCurrentPathSub();
+  }
+
+  setCurrentPathSub() {
+    this.currentPathSub = this.router.events.pipe(filter((event: any) => event instanceof NavigationEnd))
+      .subscribe(event => {
+         this.currentPath = event.url;
+      });
   }
 
   logOut() {
@@ -25,6 +36,6 @@ export class NavbarComponent implements OnInit {
   }
 
   loggedIn(): boolean {
-    return this.userService.loggedIn;
+    return this.currentPath != "/";
   }
 }

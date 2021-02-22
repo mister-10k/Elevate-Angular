@@ -8,7 +8,7 @@ export interface IDashboardStat {
 }
 
 export interface IEmployeeModel extends IUserModel {
-    NumbeOfDependents: number;
+    NumbeOfDependents?: number;
     Dependents: Array<IEmployeeModelDependent>;
     CreatedAt: string;
 }

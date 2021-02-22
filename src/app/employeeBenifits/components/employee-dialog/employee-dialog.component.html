@@ -8,21 +8,21 @@
                     <div class="col-6 col-md-3">
                         <mat-form-field>
                             <mat-label class="required-field">First Name</mat-label>
-                            <input [disabled]="readOnly" formControlName="firstName" matInput autocomplete="off" maxlength="10"/>
+                            <input formControlName="firstName" matInput autocomplete="off" maxlength="10"/>
                             <mat-error>{{getEmployeeFormControlErrorMsg('firstName')}}</mat-error>
                         </mat-form-field>
                     </div>
                     <div  class="col-6 col-md-3">
                         <mat-form-field>
                             <mat-label class="required-field">Last Name</mat-label>
-                            <input [disabled]="readOnly" formControlName="lastName" matInput autocomplete="off" maxlength="10"/>
+                            <input formControlName="lastName" matInput autocomplete="off" maxlength="10"/>
                             <mat-error>{{getEmployeeFormControlErrorMsg('lastName')}}</mat-error>
                         </mat-form-field>
                     </div>
                     <div  class="col-6 col-md-3">
                         <mat-form-field>
                             <mat-label class="required-field">Email</mat-label>
-                            <input [disabled]="readOnly" formControlName="email" matInput autocomplete="off"/>
+                            <input formControlName="email" matInput autocomplete="off"/>
                             <mat-error>{{getEmployeeFormControlErrorMsg('email')}}</mat-error>
                         </mat-form-field>
                     </div>

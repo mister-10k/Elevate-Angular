@@ -23,7 +23,7 @@ export class EmployeeBenifitsService {
     return this.http.post<IEmployeeModel>(AppConstants.employeeUrl, employee);
   }
 
-  updateEmployeee(employee: IEmployeeModel): Observable<IEmployeeModel> {
+  updateEmployee(employee: IEmployeeModel): Observable<IEmployeeModel> {
     return this.http.patch<IEmployeeModel>(AppConstants.employeeUrl, employee);
   }
 
@@ -49,21 +49,26 @@ export class EmployeeBenifitsService {
 
   public getEmployeeDeductionCost(employee: IEmployeeModel) {
     let total = 0.0;
-    let employeeCost = EmployeeBenifits.CostOfEmployeeBenifits;
-    if (employee.FirstName.toUpperCase().startsWith("A") )
-    {
-        employeeCost = employeeCost - (employeeCost * EmployeeBenifits.NameStartsWithADiscount);
+    if (employee) {
+      let employeeCost = EmployeeBenifits.CostOfEmployeeBenifits;
+      if (employee.FirstName.toUpperCase().startsWith("A") )
+      {
+          employeeCost = employeeCost - (employeeCost * EmployeeBenifits.NameStartsWithADiscount);
+      }
+      total += employeeCost;
+  
+      if (employee.Dependents) {
+        employee.Dependents.forEach(dependent => {
+          let dependentCost = EmployeeBenifits.CostOfDependent;
+          if (dependent.FirstName.toUpperCase().startsWith("A"))
+          {
+              dependentCost = dependentCost - (dependentCost * EmployeeBenifits.NameStartsWithADiscount);
+          }
+          total += dependentCost;
+         });
+      }
     }
-    total += employeeCost;
 
-    employee.Dependents.forEach(dependent => {
-        let dependentCost = EmployeeBenifits.CostOfDependent;
-        if (dependent.FirstName.toUpperCase().startsWith("A"))
-        {
-            dependentCost = dependentCost - (dependentCost * EmployeeBenifits.NameStartsWithADiscount);
-        }
-        total += dependentCost;
-    });
 
     return total;
   }

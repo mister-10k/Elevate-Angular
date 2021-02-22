@@ -10,6 +10,8 @@ import jwt_decode from "jwt-decode";
 import { SelectErrorStateMatcher } from 'src/app/shared/errorStateMatchers/SelectErrorStateMatcher';
 import { UserService } from 'src/app/user/providers/user.service';
 import { take } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-dialog',
@@ -44,6 +46,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
       if (!data.employee) {
         let jwt = localStorage.getItem('jwtToken');
         let jwtDecoded = { companyId: 0 };
+
         if (jwt) {
           jwtDecoded = jwt_decode(jwt) as any;
         }
@@ -52,6 +55,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
           Id: 0,
           FirstName: '',
           LastName: '',
+          Email: '',
           CompanyId: jwtDecoded.companyId,
           NumbeOfDependents: 0,
           Dependents: [],
@@ -59,8 +63,8 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
         }
       } else {
         this.employee = data.employee;
-        this.employeeBackup = {...this.employee};
       }
+      this.employeeBackup = {...this.employee};
       this.viewMode = data.viewMode;
       this.masterData = data.masterData;
     }

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { EmployeeBenifitsService } from '../../providers/employee-benifits.service';
 
 import { DashboardStatsComponent } from './dashboard-stats.component';
@@ -12,6 +13,7 @@ describe('DashboardStatsComponent', () => {
   beforeEach(async () => {
     httpClientSpy = jasmine.createSpyObj('HttpClient', ['get']);
     employeeBenifitsService = new EmployeeBenifitsService(httpClientSpy as any);
+    spyOn(employeeBenifitsService, 'getEBDashboardCardsData').and.returnValue(of([]));
     
     await TestBed.configureTestingModule({
       declarations: [ DashboardStatsComponent ],
