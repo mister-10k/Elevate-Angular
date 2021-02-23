@@ -52,6 +52,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  getLoginFormControlErrorMsg(controlName: string) {
+    return this.form.get(controlName).hasError('required') ? 'You must enter a value.' :               
+           this.form.get(controlName).hasError('email') ? 'Email is not valid.': '';
+  }
+
   getSignUpMasterData() {
     const obs = this.userService.getSignUpMasterData();
     obs.pipe(take(1)).subscribe(data => {

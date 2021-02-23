@@ -62,6 +62,10 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+
+        <div *ngIf="dataSource.data.length === 0" class="no-records border-bottom">
+              No records meet your search criteria or there's no employees for your company. Try changing your search criteria or adding an employee.
+       </div>
       
         <mat-paginator  [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="query('pageChange')"></mat-paginator>
       </div>

@@ -4,13 +4,13 @@
             <mat-form-field class="email-form-field">
                 <mat-label>Email</mat-label>
                 <input matInput formControlName="email">
-                <mat-error>Email required or invalid</mat-error>
+                <mat-error>{{getLoginFormControlErrorMsg('email')}}</mat-error>
             </mat-form-field>
     
             <mat-form-field>
                 <mat-label>Password</mat-label>
                 <input type="password" matInput formControlName="password">
-                <mat-error>Password required</mat-error>
+                <mat-error>{{getLoginFormControlErrorMsg('password')}}</mat-error>
             </mat-form-field>
         </div>
 

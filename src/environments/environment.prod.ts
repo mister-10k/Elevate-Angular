@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://datadogko.com/api/',
+  baseAddress: 'https://datadogko.com/'
 };

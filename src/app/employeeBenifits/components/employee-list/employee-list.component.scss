@@ -37,6 +37,13 @@
                 text-indent: 35px;
             }
         }
+
+        .no-records {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: white;
+        }
     }
 
 }

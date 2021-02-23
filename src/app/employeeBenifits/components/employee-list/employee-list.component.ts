@@ -119,9 +119,14 @@ export class EmployeeListComponent implements OnInit {
             this.updateEmployee(result.employee);
           }
         } else {
-          let index = this.dataSource.data.findIndex(x => x.Id == employee.Id);
-          if (index > -1)
-            this.dataSource.data.splice(index,1,employee);
+          if (employee) {
+            let index = this.dataSource.data.findIndex(x => x.Id == employee.Id);
+            if (index > -1) {
+              const data = [...this.dataSource.data ];
+              data.splice(index,1,result.employee);
+              this.dataSource.data = data;
+            }
+           }
         }
       }
     });

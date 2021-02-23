@@ -75,6 +75,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
       this.readOnly = true;
       this.disableEmployeeFormControls();
     }
+
     this.fillEmployeeForm();
     this.dependentsDataSource.data = this.employee.Dependents;
 
@@ -85,17 +86,16 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-  private fillEmployee() { // only input fields
-      this.employee.FirstName = this.form.get('firstName').value;
-      this.employee.LastName = this.form.get('lastName').value;
-      this.employee.Email = this.form.get('email').value;
+  private fillEmployee(employee: IEmployeeModel) { // only input fields
+      employee.FirstName = this.form.get('firstName').value;
+      employee.LastName = this.form.get('lastName').value;
+      employee.Email = this.form.get('email').value;
   }
 
   private fillEmployeeForm() {
     this.form.get('firstName').setValue(this.employee.FirstName);
     this.form.get('lastName').setValue(this.employee.LastName);
     this.form.get('email').setValue(this.employee.Email);
-    // this.form.get('comapny').setValue(this.employeeDialogData.employee.CompanyId);
   }
 
   private disableEmployeeFormControls() {
@@ -184,19 +184,20 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
   }
 
   getEmployeeDeductionCost(period: string): number {
-    this.fillEmployee();
+    let employeeCopy = { ...this.employee }
+    this.fillEmployee(employeeCopy);
 
     let result = 0;
     switch(period)
     {
       case TimePeriod.BiWeekly:
-        result =  this.employeeBenifitsService.getEmployeeDeductionCost(this.employee)/26;
+        result =  this.employeeBenifitsService.getEmployeeDeductionCost(employeeCopy)/26;
         break;
       case TimePeriod.Month:
-        result =  this.employeeBenifitsService.getEmployeeDeductionCost(this.employee)/12;
+        result =  this.employeeBenifitsService.getEmployeeDeductionCost(employeeCopy)/12;
         break;
       default: 
-        return this.employeeBenifitsService.getEmployeeDeductionCost(this.employee);
+        return this.employeeBenifitsService.getEmployeeDeductionCost(employeeCopy);
     }
 
     return result;
@@ -237,7 +238,7 @@ export class EmployeeDialog implements OnInit, AfterViewInit {
     if (!this.form.valid || !this.employeeDependentsForm.valid)
       return;
 
-    this.fillEmployee();    
+    this.fillEmployee(this.employee);    
     this.dialogRef.close({ employee: this.employee, save: true, createOrUpdate: this.employee.Id == 0 ? 'create' : 'update' });
   }
 
